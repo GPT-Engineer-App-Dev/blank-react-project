@@ -19,48 +19,50 @@ const fromSupabase = async (query) => {
 
 /* supabase integration types
 
-Drinks // table: drinks
+Dishes // table: dishes
     id: number
     created_at: string
     name: string
+    country: string
+    size: string
     type: string
     price: number
 
 */
 
-// Hooks for Drinks table
+// Hooks for Dishes table
 
-export const useDrinks = () => useQuery({
-    queryKey: ['drinks'],
-    queryFn: () => fromSupabase(supabase.from('drinks').select('*')),
+export const useDishes = () => useQuery({
+    queryKey: ['dishes'],
+    queryFn: () => fromSupabase(supabase.from('dishes').select('*')),
 });
 
-export const useAddDrink = () => {
+export const useAddDish = () => {
     const queryClient = useQueryClient();
     return useMutation({
-        mutationFn: (newDrink) => fromSupabase(supabase.from('drinks').insert([newDrink])),
+        mutationFn: (newDish) => fromSupabase(supabase.from('dishes').insert([newDish])),
         onSuccess: () => {
-            queryClient.invalidateQueries('drinks');
+            queryClient.invalidateQueries('dishes');
         },
     });
 };
 
-export const useUpdateDrink = () => {
+export const useUpdateDish = () => {
     const queryClient = useQueryClient();
     return useMutation({
-        mutationFn: (updatedDrink) => fromSupabase(supabase.from('drinks').update(updatedDrink).eq('id', updatedDrink.id)),
+        mutationFn: (updatedDish) => fromSupabase(supabase.from('dishes').update(updatedDish).eq('id', updatedDish.id)),
         onSuccess: () => {
-            queryClient.invalidateQueries('drinks');
+            queryClient.invalidateQueries('dishes');
         },
     });
 };
 
-export const useDeleteDrink = () => {
+export const useDeleteDish = () => {
     const queryClient = useQueryClient();
     return useMutation({
-        mutationFn: (id) => fromSupabase(supabase.from('drinks').delete().eq('id', id)),
+        mutationFn: (id) => fromSupabase(supabase.from('dishes').delete().eq('id', id)),
         onSuccess: () => {
-            queryClient.invalidateQueries('drinks');
+            queryClient.invalidateQueries('dishes');
         },
     });
 };
